@@ -1,31 +1,39 @@
 const express = require("express");
+const prisma = require("./config/db");
+const apiRoutes = require("./routes/index");
+
 const app = express();
-const { prisma } = require("./db/dbConfig");
+const PORT = process.env.PORT || 3000;
 
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// Routes
+app.use("/api", apiRoutes);
 
-
+// Root route
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+  res.redirect("/api/health");
 });
 
-
-async function main() {
-    try {
-        await prisma.$connect();
-        console.log("Database connection successful");
-        app.listen(3000, () => {
-            console.log("Server is running on port 3000");
-        });
-    } catch (error) {
-        console.error("Database connection error:", error);
-    }
+// Database Connection & Server Start
+async function startServer() {
+  try {
+    await prisma.$connect();
+    console.log("✅ Database connection successful");
+    
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Database connection error:", error);
+    process.exit(1);
+  }
 }
 
-main()
-.catch((error) => {
-    console.error("Error in main function:", error);
+startServer()
+.catch(async (err) => {
+    console.log(err);
+    await prisma.$disconnect()
 })
-.finally(async () => {
-    await prisma.$disconnect();
-});
