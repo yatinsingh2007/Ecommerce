@@ -14,18 +14,8 @@ async function main() {
   await prisma.product.deleteMany();
   await prisma.seller.deleteMany();
   await prisma.user.deleteMany();
-  await prisma.admin.deleteMany();
 
   const hashedPassword = await bcrypt.hash("password123", 10);
-
-  // Create Admin
-  await prisma.admin.create({
-    data: {
-      name: "Super Admin",
-      email: "admin@wooniq.com",
-      password: hashedPassword,
-    },
-  });
 
   // Create Seller
   const seller = await prisma.seller.create({
@@ -50,6 +40,7 @@ async function main() {
       price: 899.99,
       stock: 10,
       category: "Living Room",
+      imageUrl: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop",
       sellerId: seller.id,
     },
     {
@@ -58,6 +49,7 @@ async function main() {
       price: 249.50,
       stock: 25,
       category: "Seating",
+      imageUrl: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&auto=format&fit=crop",
       sellerId: seller.id,
     },
     {
@@ -66,6 +58,7 @@ async function main() {
       price: 329.00,
       stock: 15,
       category: "Seating",
+      imageUrl: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800&auto=format&fit=crop",
       sellerId: seller.id,
     },
     {
@@ -74,6 +67,7 @@ async function main() {
       price: 189.00,
       stock: 20,
       category: "Living Room",
+      imageUrl: "https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?w=800&auto=format&fit=crop",
       sellerId: seller.id,
     },
     {
@@ -82,6 +76,7 @@ async function main() {
       price: 1299.00,
       stock: 5,
       category: "Bedroom",
+      imageUrl: "https://images.unsplash.com/photo-1505693314120-0d443867891c?w=800&auto=format&fit=crop",
       sellerId: seller.id,
     },
     {
@@ -90,6 +85,43 @@ async function main() {
       price: 450.00,
       stock: 12,
       category: "Storage",
+      imageUrl: "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=800&auto=format&fit=crop",
+      sellerId: seller.id,
+    },
+    {
+      name: "Walnut Dining Table",
+      description: "A stunning 6-seater dining table crafted from solid American walnut, with a natural finish.",
+      price: 1150.00,
+      stock: 8,
+      category: "Dining",
+      imageUrl: "https://images.unsplash.com/photo-1617806118233-18e1de247200?w=800&auto=format&fit=crop",
+      sellerId: seller.id,
+    },
+    {
+      name: "Rattan Accent Chair",
+      description: "Boho-chic rattan chair with a plush white cushion. Lightweight and perfect for sunlit corners.",
+      price: 195.00,
+      stock: 18,
+      category: "Seating",
+      imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop",
+      sellerId: seller.id,
+    },
+    {
+      name: "Marble & Gold Side Table",
+      description: "An elegant side table featuring a genuine white marble top on gold geometric legs.",
+      price: 310.00,
+      stock: 14,
+      category: "Living Room",
+      imageUrl: "https://images.unsplash.com/photo-1519710164239-da123dc3800a?w=800&auto=format&fit=crop",
+      sellerId: seller.id,
+    },
+    {
+      name: "Scandinavian Floor Lamp",
+      description: "A minimalist arc floor lamp with a matte black finish and a warm-toned fabric shade.",
+      price: 125.00,
+      stock: 30,
+      category: "Lighting",
+      imageUrl: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&auto=format&fit=crop",
       sellerId: seller.id,
     },
   ];
