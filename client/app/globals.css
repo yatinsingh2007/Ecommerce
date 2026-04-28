@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #FDFBF7;
+  --color-brand-primary: #F1B30B;
+  --color-brand-text: #1A1A1A;
+  --color-brand-secondary: #666666;
+}
+
+@layer base {
+  :root {
+    --background: #FDFBF7;
+    --foreground: #1A1A1A;
+  }
+
+  body {
+    @apply bg-brand-bg text-brand-text antialiased;
+    font-family: var(--font-geist-sans), sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -107,6 +107,11 @@ async function main() {
       email: "john@example.com",
       phone: "9876543210",
       password: hashedPassword,
+      address: "456 User Lane",
+      city: "User City",
+      state: "User State",
+      country: "User Land",
+      pincode: "654321",
     },
   });
 
