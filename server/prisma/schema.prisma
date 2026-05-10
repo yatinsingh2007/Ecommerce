@@ -47,19 +47,25 @@ model Seller {
 }
 
 model Product {
-  id           String         @id @default(cuid())
-  imageUrl     String
-  sellerId     String
-  name         String
-  description  String
-  price        Float
-  stock        Int
-  category     String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  orders       OrderProduct[]
-  seller       Seller        @relation(fields: [sellerId], references: [id])
-  cartProducts CartProduct[]
+  id            String         @id @default(cuid())
+  imageUrl      String
+  sellerId      String
+  name          String
+  description   String
+  price         Float
+  discountPrice Float?
+  stock         Int
+  category      String
+  rating        Float          @default(0)
+  dimensions    String?
+  material      String?
+  brand         String?
+  tags          String[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  orders        OrderProduct[]
+  seller        Seller         @relation(fields: [sellerId], references: [id])
+  cartProducts  CartProduct[]
 }
 
 model Order {
