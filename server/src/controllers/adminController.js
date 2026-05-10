@@ -121,7 +121,43 @@ const getAllOrders = async (req, res) => {
   }
 };
 
+const getAllCustomers = async (req, res) => {
+  try {
+    const customers = await prisma.user.findMany({
+      where: {
+        role: "customer",
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        createdAt: true,
+        address: true,
+        _count: {
+          select: {
+            orders: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const formattedCustomers = customers.map(customer => ({
+      ...customer,
+      orderCount: customer._count.orders,
+    }));
+
+    return res.status(200).json({ customers: formattedCustomers });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getDashboardStats,
   getAllOrders,
+  getAllCustomers,
 };
