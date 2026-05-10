@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require("../controllers/adminController");
-// In a real app, I'd add an isAdmin/isSeller middleware here
-// const { authenticate, authorizeSeller } = require("../middleware/auth");
+const { authenticate, isSeller } = require("../middleware/authMiddleware");
 
-router.get("/stats", adminController.getDashboardStats);
-router.get("/orders", adminController.getAllOrders);
+router.get("/stats", authenticate, isSeller, adminController.getDashboardStats);
+router.get("/orders", authenticate, isSeller, adminController.getAllOrders);
 
 module.exports = router;

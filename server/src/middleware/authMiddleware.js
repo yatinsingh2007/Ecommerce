@@ -19,4 +19,12 @@ const authenticate = (req, res, next) => {
   }
 };
 
-module.exports = { authenticate };
+const isSeller = (req, res, next) => {
+  if (req.user && req.user.role === "seller") {
+    next();
+  } else {
+    return sendResponse(res, 403, "Access denied. Seller privileges required.");
+  }
+};
+
+module.exports = { authenticate, isSeller };
