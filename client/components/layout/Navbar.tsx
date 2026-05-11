@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Search, ShoppingCart, User, ChevronDown, Sofa } from "lucide-react"
+import { ChevronDown, Sofa } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/Button"
 
@@ -56,18 +56,17 @@ export function Navbar() {
         </nav>
 
         {/* Action Icons */}
-        <div className="flex items-center gap-4 lg:gap-6">
-          <button className="p-2 hover:bg-brand-text/5 rounded-full transition-colors">
-            <Search className="w-5 h-5 text-brand-text" />
-          </button>
-          <button className="p-2 hover:bg-brand-text/5 rounded-full transition-colors relative">
-            <ShoppingCart className="w-5 h-5 text-brand-text" />
-            <span className="absolute top-0 right-0 bg-brand-primary text-brand-text text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-brand-bg">
-              02
-            </span>
-          </button>
-          <Link href="/login" className="p-2 hover:bg-brand-text/5 rounded-full transition-colors">
-            <User className="w-5 h-5 text-brand-text" />
+        <div className="flex items-center gap-4">
+          <Link 
+            href="/login" 
+            className="text-sm font-semibold text-brand-text hover:text-brand-primary transition-colors"
+          >
+            Login
+          </Link>
+          <Link href="/signup">
+            <Button size="sm" className="bg-brand-text text-brand-bg hover:bg-brand-primary transition-colors">
+              Sign Up
+            </Button>
           </Link>
         </div>
       </div>

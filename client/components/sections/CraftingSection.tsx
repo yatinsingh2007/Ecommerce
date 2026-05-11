@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { ArrowLeft, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { cn } from "@/lib/utils"
 
@@ -55,7 +54,7 @@ export function CraftingSection() {
         <div className="lg:col-span-5 space-y-12">
           <div className="space-y-6">
             <p className="text-brand-secondary leading-relaxed max-w-sm">
-              At Hearthline, each piece is crafted with precision and care, infused with elegance to reflect timeless beauty.
+              At Wooniq, each piece is crafted with precision and care, infused with elegance to reflect timeless beauty.
             </p>
             <h2 className="text-5xl lg:text-7xl font-bold tracking-tight text-brand-text leading-[1.1]">
               Crafting Timeless Furniture
@@ -84,15 +83,7 @@ export function CraftingSection() {
             />
           </div>
           
-          {/* Navigation */}
-          <div className="flex justify-end gap-4 pr-4">
-            <button className="w-12 h-12 rounded-full border border-brand-text/10 flex items-center justify-center hover:bg-brand-text hover:text-white transition-all shadow-sm">
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <button className="w-12 h-12 rounded-full border border-brand-text/10 flex items-center justify-center hover:bg-brand-text hover:text-white transition-all shadow-sm">
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
+          {/* Navigation - Removed as it was non-functional */}
         </div>
 
       </div>
