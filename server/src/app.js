@@ -26,13 +26,13 @@ app.get("/", (req, res) => {
 if (process.env.VERCEL !== "1") {
   prisma.$connect()
     .then(() => {
-      console.log("✅ Database connection successful");
+      console.log("Database connection successful");
       app.listen(PORT, () => {
-        console.log(`🚀 Server running on http://localhost:${PORT}`);
+        console.log(`Server running on http://localhost:${PORT}`);
       });
     })
     .catch(async (err) => {
-      console.error("❌ Database connection error:", err);
+      console.error("Database connection error:", err);
       await prisma.$disconnect();
       process.exit(1);
     });
