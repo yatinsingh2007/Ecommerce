@@ -124,9 +124,6 @@ const getAllOrders = async (req, res) => {
 const getAllCustomers = async (req, res) => {
   try {
     const customers = await prisma.user.findMany({
-      where: {
-        role: "customer",
-      },
       select: {
         id: true,
         name: true,
