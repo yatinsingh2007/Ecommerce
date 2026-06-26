@@ -10,6 +10,7 @@ import * as z from "zod"
 import { useAuth } from "@/context/auth-context"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/Button"
+import api from "@/lib/api"
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -34,23 +35,11 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsSubmitting(true)
     try {
-      const endpoint = "http://localhost:5000/api/auth/login"
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
-        toast.success(`Welcome back, ${result.user.name}!`)
-        login(result.token, result.user)
-      } else {
-        toast.error(result.error || "Login failed")
-      }
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.")
+      const result = await api.post("/api/auth/login", data)
+      toast.success(`Welcome back, ${result.data.user.name}!`)
+      login(result.data.token, result.data.user)
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || "Something went wrong. Please try again.")
     } finally {
       setIsSubmitting(false)
     }

@@ -17,6 +17,7 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent } from "@/components/ui/Card"
 import { Input } from "@/components/ui/Input"
+import api from "@/lib/api"
 
 interface Customer {
   id: string
@@ -37,13 +38,8 @@ export default function CustomersPage() {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/admin/customers", {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        const result = await response.json()
-        if (response.ok) {
-           setCustomers(result.customers || [])
-        }
+        const result = await api.get("/api/admin/customers")
+        setCustomers(result.data.customers || [])
       } catch (error) {
         toast.error("Failed to load customers")
       } finally {

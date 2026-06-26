@@ -13,11 +13,11 @@ import {
   ExternalLink,
   Loader2
 } from "lucide-react"
-import { useAuth } from "@/context/auth-context"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent } from "@/components/ui/Card"
 import { Input } from "@/components/ui/Input"
+import api from "@/lib/api"
 
 interface Product {
   id: string
@@ -30,7 +30,6 @@ interface Product {
 }
 
 export default function ProductsPage() {
-  const { token } = useAuth()
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
@@ -41,11 +40,8 @@ export default function ProductsPage() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/products")
-      const result = await response.json()
-      if (response.ok) {
-        setProducts(result.products)
-      }
+      const result = await api.get("/api/products")
+      setProducts(result.data.products)
     } catch (error) {
       toast.error("Failed to load products")
     } finally {
@@ -55,16 +51,11 @@ export default function ProductsPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return
-    
+
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      if (response.ok) {
-        toast.success("Product deleted successfully")
-        setProducts(products.filter(p => p.id !== id))
-      }
+      await api.delete(`/api/products/${id}`)
+      toast.success("Product deleted successfully")
+      setProducts(products.filter(p => p.id !== id))
     } catch (error) {
       toast.error("Failed to delete product")
     }

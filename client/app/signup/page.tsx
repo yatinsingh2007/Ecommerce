@@ -10,6 +10,7 @@ import * as z from "zod"
 import { useAuth } from "@/context/auth-context"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/Button"
+import api from "@/lib/api"
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -34,24 +35,11 @@ export default function SignupPage() {
   const onSubmit = async (data: SignupFormValues) => {
     setIsSubmitting(true)
     try {
-      const endpoint = "http://localhost:5000/api/auth/register"
-      
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
-        toast.success("Account created successfully! Please sign in.")
-        window.location.href = "/login"
-      } else {
-        toast.error(result.error || "Registration failed")
-      }
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.")
+      await api.post("/api/auth/register", data)
+      toast.success("Account created successfully! Please sign in.")
+      window.location.href = "/login"
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || "Something went wrong. Please try again.")
     } finally {
       setIsSubmitting(false)
     }

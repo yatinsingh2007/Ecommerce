@@ -19,6 +19,7 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent } from "@/components/ui/Card"
 import { Input } from "@/components/ui/Input"
+import api from "@/lib/api"
 
 interface Order {
   id: string
@@ -40,13 +41,8 @@ export default function OrdersPage() {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/admin/orders", {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      const result = await response.json()
-      if (response.ok) {
-        setOrders(result.orders)
-      }
+      const result = await api.get("/api/admin/orders")
+      setOrders(result.data.orders)
     } catch (error) {
       toast.error("Failed to load orders")
     } finally {

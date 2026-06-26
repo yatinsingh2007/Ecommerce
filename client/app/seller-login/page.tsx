@@ -10,6 +10,7 @@ import * as z from "zod"
 import { useAuth } from "@/context/auth-context"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/Button"
+import api from "@/lib/api"
 
 const sellerLoginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -34,24 +35,11 @@ export default function SellerLoginPage() {
   const onSubmit = async (data: SellerLoginFormValues) => {
     setIsSubmitting(true)
     try {
-      const endpoint = "http://localhost:5000/api/auth/seller/login"
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
-        toast.success(`Welcome back, ${result.user.name}! Accessing Seller Portal...`)
-        // The auth context handles the redirection based on role
-        login(result.token, result.user)
-      } else {
-        toast.error(result.error || "Login failed")
-      }
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.")
+      const result = await api.post("/api/auth/seller/login", data)
+      toast.success(`Welcome back, ${result.data.user.name}! Accessing Seller Portal...`)
+      login(result.data.token, result.data.user)
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || "Something went wrong. Please try again.")
     } finally {
       setIsSubmitting(false)
     }

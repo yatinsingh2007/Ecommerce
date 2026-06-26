@@ -25,6 +25,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { useAuth } from "@/context/auth-context"
+import api from "@/lib/api"
 
 interface Stats {
   revenue: number
@@ -57,15 +58,8 @@ export default function DashboardOverview() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/admin/stats", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        const result = await response.json()
-        if (response.ok) {
-          setData(result)
-        }
+        const result = await api.get("/api/admin/stats")
+        setData(result.data)
       } catch (error) {
         console.error("Failed to fetch dashboard stats:", error)
       } finally {
