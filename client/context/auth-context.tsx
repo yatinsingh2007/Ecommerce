@@ -43,13 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(newUser)
     localStorage.setItem("auth_token", newToken)
     localStorage.setItem("auth_user", JSON.stringify(newUser))
-    document.cookie = `auth_token=${newToken}; path=/; max-age=${30 * 24 * 60 * 60}` // 30 days
-    
-    if (newUser.role === "seller") {
-      router.push("/dashboard")
-    } else {
-      router.push("/")
-    }
+    router.push("/dashboard")
   }
 
   const logout = () => {

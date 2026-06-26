@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import { useEffect } from "react"
 import { Sidebar } from "@/components/dashboard/sidebar"
 import { Topbar } from "@/components/dashboard/topbar"
 import { useAuth } from "@/context/auth-context"
@@ -14,9 +14,13 @@ export default function DashboardLayout({
   const { user, isLoading } = useAuth()
   const router = useRouter()
 
-  React.useEffect(() => {
-    if (!isLoading && !user) {
-      router.push("/login")
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        router.push("/login")
+      } else if (user.role !== "seller") {
+        router.push("/")
+      }
     }
   }, [user, isLoading, router])
 
