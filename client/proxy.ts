@@ -1,24 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-export function proxy(request: NextRequest) {
-  const token = request.cookies.get("auth_token")?.value
-  const { pathname } = request.nextUrl
-
-  // Protected routes
-  if (pathname.startsWith("/dashboard")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", request.url))
-    }
-  }
-
-  // Auth routes (redirect to dashboard if already logged in)
-  if (pathname === "/login" || pathname === "/signup" || pathname === "/seller-login") {
-    if (token) {
-      return NextResponse.redirect(new URL("/dashboard", request.url))
-    }
-  }
-
+export function proxy(_request: NextRequest) {
   return NextResponse.next()
 }
 
