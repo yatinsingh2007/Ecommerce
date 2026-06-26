@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { useAuth } from "@/context/auth-context"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/Button"
 import api from "@/lib/api"
@@ -22,7 +23,15 @@ const signupSchema = z.object({
 type SignupFormValues = z.infer<typeof signupSchema>
 
 export default function SignupPage() {
+  const { user, isLoading } = useAuth()
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!isLoading && user) {
+      router.replace(user.role === "seller" ? "/dashboard" : "/products")
+    }
+  }, [user, isLoading, router])
 
   const {
     register,

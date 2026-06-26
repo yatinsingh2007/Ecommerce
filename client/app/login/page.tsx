@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { useAuth } from "@/context/auth-context"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/Button"
 import api from "@/lib/api"
@@ -21,8 +22,15 @@ type LoginFormValues = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = React.useState(false)
-  const { login } = useAuth()
+  const { login, user, isLoading } = useAuth()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const router = useRouter()
+
+  React.useEffect(() => {
+    if (!isLoading && user) {
+      router.replace(user.role === "seller" ? "/dashboard" : "/products")
+    }
+  }, [user, isLoading, router])
 
   const {
     register,

@@ -43,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(newUser)
     localStorage.setItem("auth_token", newToken)
     localStorage.setItem("auth_user", JSON.stringify(newUser))
-    router.push("/dashboard")
+    router.push(newUser.role === "seller" ? "/dashboard" : "/products")
   }
 
   const logout = () => {
