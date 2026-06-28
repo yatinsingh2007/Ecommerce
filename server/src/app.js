@@ -38,6 +38,5 @@ if (process.env.VERCEL !== "1") {
     });
 }
 
-// Export for Vercel serverless runtime
 module.exports = app;
 
