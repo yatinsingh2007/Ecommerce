@@ -3,7 +3,14 @@
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Search, SlidersHorizontal, ShoppingCart, Zap, Star, Package, Store } from "lucide-react"
+import { Search, ShoppingCart, Zap, Star, Package, Store } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select"
 import { toast } from "sonner"
 import Link from "next/link"
 import api from "@/lib/api"
@@ -153,18 +160,16 @@ export default function ProductsPage() {
           </div>
 
           {/* Sort */}
-          <div className="flex items-center gap-2 bg-white border border-stone-100 rounded-xl px-3 py-2.5 shrink-0">
-            <SlidersHorizontal className="w-4 h-4 text-stone-400 shrink-0" />
-            <select
-              value={sort}
-              onChange={e => setSort(e.target.value)}
-              className="bg-transparent outline-none text-sm text-stone-700 cursor-pointer"
-            >
+          <Select value={sort} onValueChange={setSort}>
+            <SelectTrigger className="w-44 shrink-0">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
               {SORT_OPTIONS.map(o => (
-                <option key={o.value} value={o.value}>{o.label}</option>
+                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
               ))}
-            </select>
-          </div>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Category pills */}
